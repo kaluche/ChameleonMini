@@ -47,6 +47,7 @@ static struct {
 typedef enum {
 	CardType_NXP_MIFARE_Mini = 0, // do NOT assign another CardType item with a specific value since there are loops over this type
 	CardType_NXP_MIFARE_Classic_1k,
+	CardType_NXP_MIFARE_Classic_2k_CL2,
 	CardType_NXP_MIFARE_Classic_4k,
 	CardType_NXP_MIFARE_Ultralight,
 	CardType_NXP_MIFARE_DESFire,
@@ -80,6 +81,7 @@ typedef struct {
 static const CardIdentificationType PROGMEM CardIdentificationList[] = {
 		[CardType_NXP_MIFARE_Mini] 				= { .ATQA=0x0004, .ATQARelevant=true, .SAK=0x09, .SAKRelevant=true, .ATSRelevant=false, .Manufacturer="NXP", .Type="MIFARE Mini" },
 		[CardType_NXP_MIFARE_Classic_1k] 		= { .ATQA=0x0004, .ATQARelevant=true, .SAK=0x08, .SAKRelevant=true, .ATSRelevant=false, .Manufacturer="NXP", .Type="MIFARE Classic 1k" },
+		[CardType_NXP_MIFARE_Classic_2k_CL2]	= { .ATQA=0x0044, .ATQARelevant=true, .SAK=0x08, .SAKRelevant=true, .ATSRelevant=false, .Manufacturer="NXP", .Type="MIFARE Classic 2k CL2" },
 		[CardType_NXP_MIFARE_Classic_4k] 		= { .ATQA=0x0002, .ATQARelevant=true, .SAK=0x18, .SAKRelevant=true, .ATSRelevant=false, .Manufacturer="NXP", .Type="MIFARE Classic 4k" },
 		[CardType_NXP_MIFARE_Ultralight] 		= { .ATQA=0x0044, .ATQARelevant=true, .SAK=0x00, .SAKRelevant=true, .ATSRelevant=false, .Manufacturer="NXP", .Type="MIFARE Ultralight" },
 		// for the following two, setting ATSRelevant to true would cause checking the ATS value, but the NXP paper for distinguishing cards does not recommend this
@@ -736,6 +738,7 @@ uint16_t Reader14443AAppProcess(uint8_t* Buffer, uint16_t BitCount)
 								break;
 							}
 							case CardType_NXP_MIFARE_Classic_1k:
+							case CardType_NXP_MIFARE_Classic_2k_CL2:
 							case CardType_Infineon_MIFARE_Classic_1k:
 							{
 								if (CardCharacteristics.UIDSize == UIDSize_Single) {
